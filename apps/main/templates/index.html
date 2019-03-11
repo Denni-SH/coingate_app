@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-
-{% block title %}
-    {{ title }}
-{% endblock %}
+{% load i18n %}
 
 {% block content %}
     <div class="container-fluid">
@@ -12,16 +9,16 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="order_amount" id="form-text">
-                        Enter the rate amount: <b>$</b>
+                        {% trans "Enter the rate amount" %}: <b>$</b>
                     </label>
                     <input id="order_amount"
                        required type="number" name="order_amount"
                        min="1" step="0.01">
                 </div>
-                <p><input type="submit" value="Submit" id="submit"></p>
+                <p><input type="submit" value="{% trans 'Submit' %}" id="submit"></p>
             </form>
         </div>
-        <a href="{% url 'order_list' %}"><b>Look the order list &#62;&#62;</b></a>
+        <a href="{% url 'order_list' %}"><b>{% trans "Look the order list" %} &#62;&#62;</b></a>
 
     </div>
 {% endblock %}

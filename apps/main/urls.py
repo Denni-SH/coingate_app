@@ -6,4 +6,5 @@ urlpatterns = [
     path('', index, name='index'),
     path('create_order', create_order, name='create_order'),
     path('order_list', get_orders_list, name='order_list'),
+    
 ]
