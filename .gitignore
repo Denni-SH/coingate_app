@@ -1,0 +1,12 @@
+# System, dev, logging and cache files:
+.idea/
+__pycache__/
+*.pyc
+*.log
+
+# Project folders:
+env/
+static/
+media/*
+!media/default/
+.env
