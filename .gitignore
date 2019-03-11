@@ -11,3 +11,4 @@ media/*
 !media/default/
 .env
 *.sqlite3
+locale/ru/
