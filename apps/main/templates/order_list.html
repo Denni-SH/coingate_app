@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <ul>
+            {% for order in orders %}
+                <li> - {{ order.order_id }}:
+                    {{ order.price_amount }} {{ order.price_currency }} -
+                    {{ order.status }}
+                    at {{ order.created_at|date:'H:i d-m-Y' }}.
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="/"><b>&#60;&#60;Make new order</b></a>
+    </div>
+{% endblock %}

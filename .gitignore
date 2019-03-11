@@ -4,9 +4,10 @@ __pycache__/
 *.pyc
 *.log
 
-# Project folders:
+# Project folders and files:
 env/
 static/
 media/*
 !media/default/
 .env
+*.sqlite3
