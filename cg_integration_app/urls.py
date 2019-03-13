@@ -9,7 +9,10 @@ from django.conf.urls.i18n import i18n_patterns
 from .views import switch_language
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('switch_language/lang=<slug:lang>', switch_language, name='switch_lang'),
+    path(
+        'switch_language/lang=<slug:lang>&&path=<path:path>',
+        switch_language, name='switch_lang',
+    ),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += i18n_patterns(

@@ -1,50 +1,37 @@
-import os
-
-from coingate.client import CoinGateV2Client, CoinGateV2Order
-from django.shortcuts import render, redirect
-
-CLIENT = CoinGateV2Client(os.getenv("APP_ID"), os.getenv("API_KEY"))
-DEFAULT_CURRENCY = "USD"
-ORDER_LIST_URL = "http://127.0.0.1:8000/order_list"
+from django.urls import reverse
+from django.views.generic import TemplateView, RedirectView
+from .utils import place_order, process_client_order_list
 
 
-def index(request):
-    content = dict()
-    content['title'] = "CoinIntegro"
-    return render(request, "index.html", content)
+class IndexView(TemplateView):
+    template_name = "index.html"
 
 
-def create_order(request):
-    rate_amount = request.POST.get("order_amount")
-    orders = list(CLIENT.iterate_all_orders())
-    order_id = int(orders[0].order_id) + 1 if orders else 1
-    order_url = ORDER_LIST_URL
-    new_order = CoinGateV2Order.new(
-        order_id,
-        rate_amount,
-        DEFAULT_CURRENCY,
-        DEFAULT_CURRENCY,
-        callback_url=order_url,
-        cancel_url=order_url,
-        success_url=order_url,
-    )
-
-    placed_order = CLIENT.create_order(new_order)
-    payment_url = placed_order.payment_url if placed_order else '/'
-
-    return redirect(payment_url)
-
-
-def get_orders_list(request):
-    raw_order_list = list(CLIENT.iterate_all_orders())
-    proccessed_order_list = []
-    for order in raw_order_list:
-        temp_order = order.to_request_data()
-        temp_order["status"] = order.status
-        temp_order["created_at"] = order.created_at
-        proccessed_order_list.append(temp_order)
+class PaymentRedirectView(RedirectView):
     
-    content = dict()
-    content['title'] = "Order list"
-    content["orders"] = proccessed_order_list
-    return render(request, "order_list.html", content)
+    def __init__(self):
+        self.payment_url = None
+        super(PaymentRedirectView, self).__init__()
+
+    def dispatch(self, request, *args, **kwargs):
+        pay_amount = request.POST.get("order_amount")
+        order_url = request.build_absolute_uri(reverse('order_list'))
+    
+        placed_order = place_order(pay_amount, order_url)
+        self.payment_url = placed_order.payment_url \
+            if placed_order else reverse('index')
+
+        return \
+            super(PaymentRedirectView, self).dispatch(request, *args, **kwargs)
+    
+    def get_redirect_url(self, *args, **kwargs):
+        return self.payment_url
+
+
+class OrderListView(TemplateView):
+    template_name = "order_list.html"
+    
+    def get_context_data(self, **kwargs):
+        processed_order_list = process_client_order_list()
+        context = dict(orders=processed_order_list)
+        return context

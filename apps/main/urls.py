@@ -1,10 +1,9 @@
-from .views import index, create_order, get_orders_list
+from .views import IndexView, PaymentRedirectView, OrderListView
 from django.urls import path
 
 
 urlpatterns = [
-    path('', index, name='index'),
-    path('create_order', create_order, name='create_order'),
-    path('order_list', get_orders_list, name='order_list'),
-    
+    path('', IndexView.as_view(), name='index'),
+    path('create_order', PaymentRedirectView.as_view(), name='create_order'),
+    path('order_list', OrderListView.as_view(), name='order_list'),
 ]

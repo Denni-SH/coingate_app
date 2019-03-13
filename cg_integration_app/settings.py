@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'cg_integration_app.middlewares.force_default_language_middleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -115,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'UTC'
 
@@ -133,7 +134,10 @@ LOCALE_PATHS = (
 LANGUAGES = (
     ('en', _('English')),
     ('ru', _('Russian')),
+
 )
+DEFAULT_LANGUAGE = 2
+
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static/'

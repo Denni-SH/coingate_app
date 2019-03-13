@@ -6,9 +6,9 @@ __pycache__/
 
 # Project folders and files:
 env/
-static/
+static/admin/
 media/*
 !media/default/
 .env
 *.sqlite3
-locale/ru/
+locale/*
