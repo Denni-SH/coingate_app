@@ -40,7 +40,10 @@ replace with:
 from urllib.parse import urlunparse, urljoin
 ```
 
-5) Then run the server:
+5) Create and fill .env with .env.example:
+
+
+6) Then run the server:
 
 ```
 $ python manage.py runserver
