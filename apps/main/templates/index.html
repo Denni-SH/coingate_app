@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block content %}
+    <div id="container" class="container">
+        <div class="row text-white">
+            <div class="col-sm-6 offset-sm-3 text-center">
+                <h1 class="display-4 text-dark">{% trans "Make a donation" %}</h1>
+                <br>
+                <div class="info-form">
+                    <form action="{% url 'create_order' %}" method="post" class="form-inlin justify-content-center">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="sr-only">Amount</label>
+                            <input class="form-control" placeholder="{% trans "Enter donation amount" %} (USD)"
+                                   id="order_amount" required type="number" name="order_amount" min="1" step="0.01">
+                        </div>
+                        <button type="submit" class="btn btn-success" id="submit">{% trans 'Submit' %}</button>
+                    </form>
+                </div>
+                <br>
+
+                <a href="{% url 'order_list' %}" class="btn btn-outline-secondary btn-sm" role="button">
+                    {% trans "To transaction list" %}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
