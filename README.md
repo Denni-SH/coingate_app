@@ -42,9 +42,6 @@ from urllib.parse import urlunparse, urljoin
 
 5) Create and fill .env with .env.example:
 
-```
-$ python manage.py runserver
-```
 
 6) Then run the server:
 
